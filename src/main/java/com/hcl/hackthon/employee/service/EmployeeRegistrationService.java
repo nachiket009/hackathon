@@ -12,8 +12,12 @@ public class EmployeeRegistrationService implements IEmployeeRegistrationService
 	}
 
 	public Employee getEmployeeById(Integer employeeId) {
-		// TODO Auto-generated method stub
-		return null;
+		Employee emp = new Employee();
+		emp.setEmployeeId(employeeId);
+		emp.setName("James");
+		emp.setDesignation("PM");
+		emp.setSalary(100000.00);
+		return emp;
 	}
 
 }

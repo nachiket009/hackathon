@@ -1,5 +1,8 @@
 package com.hcl.hackthon.employee.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class EmployeeAddResponse {
 
 	private Integer employeeId;
