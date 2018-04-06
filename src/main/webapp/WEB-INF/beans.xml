@@ -23,13 +23,29 @@
 	<bean id="employeeRegistrationService"
 		class="com.hcl.hackthon.employee.service.EmployeeRegistrationService" />
 
-	<jaxrs:server id="employeeRegistrationServer" address="/">
+	<bean id="emiService" class="com.hcl.hackthon.loan.service.EMIService" />
+
+	<bean id="cors-filter"
+		class="org.apache.cxf.rs.security.cors.CrossOriginResourceSharingFilter" />
+
+
+	<jaxrs:server id="loanServer" address="/">
 		<jaxrs:serviceBeans>
-			<ref bean="employeeRegistrationService" />
+			<ref bean="emiService" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<ref bean='jsonProvider' />
+			<ref bean="cors-filter" />
 		</jaxrs:providers>
 	</jaxrs:server>
+
+	<bean id="customJaxrsRestEntityProviders"
+		class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<ref bean="cors-filter" />
+			</list>
+		</property>
+	</bean>
 
 </beans>

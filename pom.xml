@@ -9,7 +9,7 @@
 	<url>http://maven.apache.org</url>
 
 	<build>
-		<finalName>employee_registration</finalName>
+		<finalName>loan_app</finalName>
 	</build>
 
 	<properties>
@@ -71,8 +71,13 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>4.11</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-rs-security-cors</artifactId>
+			<version>${cxf.version}</version>
 		</dependency>
 	</dependencies>
 
