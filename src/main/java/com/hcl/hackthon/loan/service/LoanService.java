@@ -75,18 +75,22 @@ public class LoanService implements ILoanService {
 
 	public LoanDisbursementDetails getLoanDisbursement(String username) {
 		LoanDisbursementDetails lrd = new LoanDisbursementDetails();
-		LoanDetail loanDetail = loanDao.getLoanDetailFromUserName(username);
-		String status = loanDetail.getStatus();
-		if(status!=null && status.equalsIgnoreCase(LoanAppConstants.APPROVED)){
-			lrd.setDisbursed(true);
-			float amount = loanDetail.getAmount();
-			int tenure = loanDetail.getTenure();
-			double emi = calculateEmi(amount, tenure, LoanAppConstants.RATE_OF_INTEREST);
-			lrd.setUsername(username);
-			lrd.setTenure(loanDetail.getTenure());		
-			lrd.setEmi(emi);
-			lrd.setAmount(loanDetail.getAmount());
-		}else{
+		try{			
+			LoanDetail loanDetail = loanDao.getLoanDetailFromUserName(username);
+			String status = loanDetail.getStatus();
+			if(status!=null && status.equalsIgnoreCase(LoanAppConstants.APPROVED)){
+				lrd.setDisbursed(true);
+				float amount = loanDetail.getAmount();
+				int tenure = loanDetail.getTenure();
+				double emi = calculateEmi(amount, tenure, LoanAppConstants.RATE_OF_INTEREST);
+				lrd.setUsername(username);
+				lrd.setTenure(loanDetail.getTenure());		
+				lrd.setEmi(emi);
+				lrd.setAmount(loanDetail.getAmount());
+			}else{
+				lrd.setDisbursed(false);
+			}
+		}catch(Exception e){
 			lrd.setDisbursed(false);
 		}
 		
