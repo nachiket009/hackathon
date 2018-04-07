@@ -12,7 +12,7 @@ public class EMIServiceTest  {
 		
 		double actResult = emiService.getEmi(1000000, 10);
 		
-		Assert.assertEquals(11610.77, actResult, 0.0);
+		Assert.assertEquals(12667.52, actResult, 0.0);
 		
 		
 	}

@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.hcl.hackthon.employee.model.LoanDecision;
 import com.hcl.hackthon.employee.model.LoanDetail;
+import com.hcl.hackthon.employee.model.LoanDisbursementDetails;
 import com.hcl.hackthon.employee.model.LoanRequest;
 import com.hcl.hackthon.employee.model.UserLoginRequest;
 import com.hcl.hackthon.employee.model.UserLoginResult;
@@ -46,7 +47,7 @@ public interface ILoanService {
 	public LoanDetail getLoanByUserName(@PathParam("username") String username);
 	
 	@GET
-	@Path("/getloansbystatus/{status}")
-	public void getAllLoansByStatus(@PathParam("status") String status);
-
+	@Path("/getloandisbursement/{username}")
+	public LoanDisbursementDetails getLoanDisbursement(@PathParam("username") String username);
+	
 }

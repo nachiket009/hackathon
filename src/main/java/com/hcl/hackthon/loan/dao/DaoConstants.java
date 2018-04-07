@@ -1,6 +1,10 @@
 package com.hcl.hackthon.loan.dao;
 
 public class DaoConstants {
+	
+	private DaoConstants(){
+		
+	}
 
 	public static final String USER_STATUS = "User_Status";
 	public static final String USER_DETAILS = "User_Details";

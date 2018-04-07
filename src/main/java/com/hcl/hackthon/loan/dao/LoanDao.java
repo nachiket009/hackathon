@@ -1,12 +1,14 @@
 package com.hcl.hackthon.loan.dao;
 
 
+import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 
 import com.hcl.hackthon.employee.model.LoanDetail;
 import com.hcl.hackthon.loan.data.UserDetail;
 import com.hcl.hackthon.loan.data.UserStatus;
+
 import static com.hcl.hackthon.loan.dao.DaoConstants.AMOUNT;
 import static com.hcl.hackthon.loan.dao.DaoConstants.LOAN_STATUS;
 import static com.hcl.hackthon.loan.dao.DaoConstants.RATE_OF_INTEREST;
@@ -17,20 +19,22 @@ import static com.hcl.hackthon.loan.dao.DaoConstants.USER_STATUS;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.List;;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoanDao {
 
 	private JdbcTemplate jdbcTemplate;
+	
+	private static Logger logger = Logger.getLogger(LoanDao.class);
 
 	public UserDetail getDetailFromUserName(String userName, String password){		
 		try{
 			String sql = "select * from user_details where UserName = ? and passwd = ?";
-			UserDetail ud = (UserDetail) jdbcTemplate.queryForObject(
-					sql, new Object[] { userName,  password}, new UserRowMapper());			
-			return ud;
+			return jdbcTemplate.queryForObject(
+					sql, new Object[] { userName,  password}, new UserRowMapper());	
 		}catch(Exception e){
-			e.printStackTrace();
+			logger.error(e.getMessage());
 			return null;
 		}		
 	}
@@ -38,11 +42,10 @@ public class LoanDao {
 	public UserDetail getDetailFromUserName(String userName){		
 		try{
 			String sql = "select * from user_details where UserName = ?";
-			UserDetail ud = (UserDetail) jdbcTemplate.queryForObject(
-					sql, new Object[] { userName }, new UserRowMapper());			
-			return ud;
+			return jdbcTemplate.queryForObject(
+					sql, new Object[] { userName }, new UserRowMapper());
 		}catch(Exception e){
-			e.printStackTrace();
+			logger.error(e.getMessage());
 			return null;
 		}		
 	}
@@ -53,8 +56,9 @@ public class LoanDao {
 				+ "VALUES (?, ?, ?, ? ,?)";
 		try{			
 			jdbcTemplate.update(new PreparedStatementCreator() {
-				
+
 				public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+					
 					PreparedStatement stmt = con.prepareStatement(sql);
 					stmt.setString(1, userStatus.getUserid());
 					stmt.setString(2, userStatus.getLoanstatus());
@@ -66,7 +70,7 @@ public class LoanDao {
 			});
 			
 		}catch(Exception e){
-			e.printStackTrace();
+			logger.error(e.getMessage());
 			status = 1;
 		}	
 		return status;
@@ -76,11 +80,10 @@ public class LoanDao {
 		try{
 			String sql = "select us.UserID, ud.UserName, us.Amount, us.LoanStatus, us.Tenure, us.Rate_Intr from hackathon1.user_details ud, hackathon1.User_Status us where ud.UserName = ? "
  +" and us.UserID = ud.UserID";
-			LoanDetail userStatus = (LoanDetail) jdbcTemplate.queryForObject(
+			return jdbcTemplate.queryForObject(
 					sql, new Object[] { username }, new LoanDetailMapper());
-			return userStatus;
 		}catch(Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 			return null;
 		}		
 	}
@@ -92,7 +95,7 @@ public class LoanDao {
 		try{
 			jdbcTemplate.update(sql,args);
 		}catch(Exception e){
-			e.printStackTrace();
+			logger.error(e.getMessage());
 			status=1;
 		}
 		
@@ -103,12 +106,11 @@ public class LoanDao {
 		try{
 			String sql = "select us.UserID, ud.UserName, us.Amount, us.LoanStatus, us.Tenure, us.Rate_Intr from hackathon1.user_details ud, hackathon1.User_Status us where "
  +" us.UserID = ud.UserID";
-			List<LoanDetail> loanDetailList = (List<LoanDetail>) jdbcTemplate.query(
+			return jdbcTemplate.query(
 					sql, new LoanDetailMapper());
-			return loanDetailList;
 		}catch(Exception e) {
-			e.printStackTrace();
-			return null;
+			logger.error(e.getMessage());
+			return new ArrayList<LoanDetail>();
 		}		
 	}
 	

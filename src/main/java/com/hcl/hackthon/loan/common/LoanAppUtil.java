@@ -5,10 +5,13 @@ import java.math.RoundingMode;
 
 public class LoanAppUtil {
 
+	private LoanAppUtil(){
+		
+	}
 	
 	public static double getPrecisionValue(double input){	
-		BigDecimal bd = new BigDecimal(input).setScale(2, RoundingMode.HALF_EVEN);
-		double result = bd.doubleValue();
-		return result;
+		BigDecimal bd = BigDecimal.valueOf(input).setScale(2, RoundingMode.HALF_EVEN);
+		return bd.doubleValue();
+		
 	}
 }

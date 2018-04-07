@@ -1,12 +1,12 @@
 package com.hcl.hackthon.loan.service;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import com.hcl.hackthon.employee.model.LoanDecision;
 import com.hcl.hackthon.employee.model.LoanDetail;
+import com.hcl.hackthon.employee.model.LoanDisbursementDetails;
 import com.hcl.hackthon.employee.model.LoanRequest;
 import com.hcl.hackthon.employee.model.UserLoginRequest;
 import com.hcl.hackthon.employee.model.UserLoginResult;
@@ -20,16 +20,10 @@ public class LoanService implements ILoanService {
 	
 	private LoanDao loanDao;
 	
-	static Logger LOGGER = Logger.getLogger(LoanService.class);
+	private static Logger logger = Logger.getLogger(LoanService.class);
 
 	public double getEmi(float p, float t) {
-		double emi;
-		float r = 7.00f;
-		r = r / (12 * 100); // one month interest
-		t = t * 12; // one month period
-		emi = (p * r * (float) Math.pow(1 + r, t)) / (float) (Math.pow(1 + r, t) - 1);
-		emi = LoanAppUtil.getPrecisionValue(emi);
-		return (emi);
+		return calculateEmi(p, t, LoanAppConstants.RATE_OF_INTEREST);		
 	}
 	
 	public UserLoginResult getRole(UserLoginRequest userLoginRequest) {
@@ -59,7 +53,7 @@ public class LoanService implements ILoanService {
 		
 		int status = loanDao.saveLoanRequest(userStatus);
 		
-		LOGGER.debug("status : " + status);
+		logger.debug("status : " + status);
 		
 	}
 
@@ -68,26 +62,50 @@ public class LoanService implements ILoanService {
 		String action = loanDecision.getAction();
 		UserDetail ud = loanDao.getDetailFromUserName(username);		
 		int status = loanDao.updateLoan(ud.getId(), action);
-		LOGGER.debug("status : " + status);
+		logger.debug("status : " + status);
 	}
 
 	public LoanDetail getLoanByUserName(String username) {		
-		LoanDetail loanDetail = loanDao.getLoanDetailFromUserName(username);
-		return loanDetail;		
+		return loanDao.getLoanDetailFromUserName(username);		
 	}
 
 	public List<LoanDetail> getAllLoans() {
-		List<LoanDetail> loanDetailList = loanDao.getAllLoans();
-		return loanDetailList;
+		return loanDao.getAllLoans();
 	}
 
-	public void getAllLoansByStatus(String status) {
-		// TODO Auto-generated method stub
+	public LoanDisbursementDetails getLoanDisbursement(String username) {
+		LoanDisbursementDetails lrd = new LoanDisbursementDetails();
+		LoanDetail loanDetail = loanDao.getLoanDetailFromUserName(username);
+		String status = loanDetail.getStatus();
+		if(status!=null && status.equalsIgnoreCase(LoanAppConstants.APPROVED)){
+			lrd.setDisbursed(true);
+			float amount = loanDetail.getAmount();
+			int tenure = loanDetail.getTenure();
+			double emi = calculateEmi(amount, tenure, LoanAppConstants.RATE_OF_INTEREST);
+			lrd.setUsername(username);
+			lrd.setTenure(loanDetail.getTenure());		
+			lrd.setEmi(emi);
+			lrd.setAmount(loanDetail.getAmount());
+		}else{
+			lrd.setDisbursed(false);
+		}
 		
+		return lrd;
+	}
+	
+	private static double calculateEmi(float p, float t, float r) {
+		double emi;
+		
+		r = r / (12 * 100); // one month interest
+		t = t * 12; // one month period
+		emi = (p * r * (float) Math.pow(1 + r, t)) / (float) (Math.pow(1 + r, t) - 1);
+		emi = LoanAppUtil.getPrecisionValue(emi);
+		return (emi);
 	}
 
 	public void setLoanDao(LoanDao loanDao) {
 		this.loanDao = loanDao;
 	}
+
 
 }

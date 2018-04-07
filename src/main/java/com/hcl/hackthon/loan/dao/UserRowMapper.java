@@ -5,10 +5,6 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import static com.hcl.hackthon.loan.dao.DaoConstants.AMOUNT;
-import static com.hcl.hackthon.loan.dao.DaoConstants.LOAN_STATUS;
-import static com.hcl.hackthon.loan.dao.DaoConstants.RATE_OF_INTEREST;
-import static com.hcl.hackthon.loan.dao.DaoConstants.TENURE;
 import static com.hcl.hackthon.loan.dao.DaoConstants.USER_ID;
 import static com.hcl.hackthon.loan.dao.DaoConstants.USER_ROLE;
 import static com.hcl.hackthon.loan.dao.DaoConstants.USER_NAME;
