@@ -1,7 +1,11 @@
 package com.hcl.hackthon.loan.service;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
+import com.hcl.hackthon.employee.model.LoanDecision;
+import com.hcl.hackthon.employee.model.LoanDetail;
 import com.hcl.hackthon.employee.model.LoanRequest;
 import com.hcl.hackthon.employee.model.UserLoginRequest;
 import com.hcl.hackthon.employee.model.UserLoginResult;
@@ -54,6 +58,29 @@ public class LoanService implements ILoanService {
 		int status = loanDao.saveLoanRequest(userStatus);
 		
 		LOGGER.debug("status : " + status);
+		
+	}
+
+	public void loanDecision(LoanDecision loanDecision) {
+		String username = loanDecision.getUsername();
+		String action = loanDecision.getAction();
+		UserDetail ud = loanDao.getDetailFromUserName(username);		
+		int status = loanDao.updateLoan(ud.getId(), action);
+		LOGGER.debug("status : " + status);
+	}
+
+	public LoanDetail getLoanByUserName(String username) {		
+		LoanDetail loanDetail = loanDao.getLoanDetailFromUserName(username);
+		return loanDetail;		
+	}
+
+	public List<LoanDetail> getAllLoans() {
+		List<LoanDetail> loanDetailList = loanDao.getAllLoans();
+		return loanDetailList;
+	}
+
+	public void getAllLoansByStatus(String status) {
+		// TODO Auto-generated method stub
 		
 	}
 
