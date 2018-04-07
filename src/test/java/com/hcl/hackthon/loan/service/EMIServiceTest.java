@@ -8,7 +8,7 @@ public class EMIServiceTest  {
 	
 	@Test
 	public void emiTestPositive(){
-		EMIService emiService = new EMIService();
+		LoanService emiService = new LoanService();
 		
 		double result = emiService.getEmi(1000000, 10);
 		System.out.println(result);

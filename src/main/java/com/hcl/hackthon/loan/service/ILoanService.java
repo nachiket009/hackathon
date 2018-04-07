@@ -7,11 +7,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-//
-//import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
 
-import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
-
+import com.hcl.hackthon.employee.model.LoanRequest;
 import com.hcl.hackthon.employee.model.UserLoginRequest;
 import com.hcl.hackthon.employee.model.UserLoginResult;
 
@@ -27,5 +24,9 @@ public interface ILoanService {
 	@POST
 	@Path("/login")
 	public UserLoginResult getRole(UserLoginRequest userLoginRequest);
+	
+	@POST
+	@Path("/applyloan")
+	public void applyLoan(LoanRequest loanRequest);
 
 }
