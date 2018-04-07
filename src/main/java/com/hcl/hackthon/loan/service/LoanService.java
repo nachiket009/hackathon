@@ -5,7 +5,7 @@ import com.hcl.hackthon.employee.model.UserLoginResult;
 import com.hcl.hackthon.loan.dao.LoanDao;
 import com.hcl.hackthon.loan.data.UserDetail;
 
-public class EMIService implements IEMIService {
+public class LoanService implements ILoanService {
 	
 	private LoanDao loanDao;
 

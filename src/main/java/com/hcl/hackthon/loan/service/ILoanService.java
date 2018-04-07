@@ -15,10 +15,10 @@ import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
 import com.hcl.hackthon.employee.model.UserLoginRequest;
 import com.hcl.hackthon.employee.model.UserLoginResult;
 
-@Path("/emiservice")
+@Path("/loanservice")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public interface IEMIService {
+public interface ILoanService {
 	
 	@GET
 	@Path("/emi/{amount}/{tenure}")

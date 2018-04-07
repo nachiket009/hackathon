@@ -49,15 +49,13 @@
 		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
 	</bean>
 
-	<bean id="emiService" class="com.hcl.hackthon.loan.service.EMIService">
+	<bean id="loanService" class="com.hcl.hackthon.loan.service.LoanService">
 		<property name="loanDao" ref="loanDao"></property>
 	</bean>
-
 	
-
 	<jaxrs:server id="loanServer" address="/">
 		<jaxrs:serviceBeans>
-			<ref bean="emiService" />
+			<ref bean="loanService" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<ref bean='jsonProvider' />
