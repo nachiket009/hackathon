@@ -1,6 +1,8 @@
 package com.hcl.hackthon.loan.service;
 
+import org.junit.Assert;
 import org.junit.Test;
+
 
 public class EMIServiceTest  {
 	
@@ -8,8 +10,10 @@ public class EMIServiceTest  {
 	public void emiTestPositive(){
 		LoanService emiService = new LoanService();
 		
-		double result = emiService.getEmi(1000000, 10);
-		System.out.println(result);
+		double actResult = emiService.getEmi(1000000, 10);
+		
+		Assert.assertEquals(11610.77, actResult, 0.0);
+		
 		
 	}
 

@@ -1,6 +1,5 @@
 package com.hcl.hackthon.loan.dao;
 
-import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -14,9 +13,6 @@ import static com.hcl.hackthon.loan.dao.DaoConstants.RATE_OF_INTEREST;
 import static com.hcl.hackthon.loan.dao.DaoConstants.TENURE;
 import static com.hcl.hackthon.loan.dao.DaoConstants.USER_ID;
 import static com.hcl.hackthon.loan.dao.DaoConstants.USER_STATUS;
-import static com.hcl.hackthon.loan.dao.DaoConstants.USER_DETAILS;
-import static com.hcl.hackthon.loan.dao.DaoConstants.USER_STATUS_US;
-import static com.hcl.hackthon.loan.dao.DaoConstants.USER_DETAILS_UD;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

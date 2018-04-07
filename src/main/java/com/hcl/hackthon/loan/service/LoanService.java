@@ -1,5 +1,6 @@
 package com.hcl.hackthon.loan.service;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -10,6 +11,7 @@ import com.hcl.hackthon.employee.model.LoanRequest;
 import com.hcl.hackthon.employee.model.UserLoginRequest;
 import com.hcl.hackthon.employee.model.UserLoginResult;
 import com.hcl.hackthon.loan.common.LoanAppConstants;
+import com.hcl.hackthon.loan.common.LoanAppUtil;
 import com.hcl.hackthon.loan.dao.LoanDao;
 import com.hcl.hackthon.loan.data.UserDetail;
 import com.hcl.hackthon.loan.data.UserStatus;
@@ -21,12 +23,12 @@ public class LoanService implements ILoanService {
 	static Logger LOGGER = Logger.getLogger(LoanService.class);
 
 	public double getEmi(float p, float t) {
-		float emi;
+		double emi;
 		float r = 7.00f;
 		r = r / (12 * 100); // one month interest
 		t = t * 12; // one month period
 		emi = (p * r * (float) Math.pow(1 + r, t)) / (float) (Math.pow(1 + r, t) - 1);
-
+		emi = LoanAppUtil.getPrecisionValue(emi);
 		return (emi);
 	}
 	
