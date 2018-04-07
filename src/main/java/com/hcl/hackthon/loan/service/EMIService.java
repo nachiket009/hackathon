@@ -1,22 +1,13 @@
 package com.hcl.hackthon.loan.service;
 
-public class EMIService implements IEMIService {
+import com.hcl.hackthon.employee.model.UserLoginRequest;
+import com.hcl.hackthon.employee.model.UserLoginResult;
+import com.hcl.hackthon.loan.dao.LoanDao;
+import com.hcl.hackthon.loan.data.UserDetail;
 
-	// [P x R x (1+R)^N]/[(1+R)^N-1]
-//	public double getEmi(double amount, int tenure) {
-//		double roiYearly = 7.00;
-//		double roiMonthly = roiYearly / (12 * 100);
-//		int n = tenure / 12;
-//		double finalResult = 0.0;
-//
-//		double res1 = Math.pow((1 + roiMonthly), n);
-//
-//		double upperRes = amount * roiMonthly * res1;
-//		double lowerRes = res1 - 1;
-//		finalResult = upperRes / lowerRes;
-//
-//		return finalResult;
-//	}
+public class EMIService implements IEMIService {
+	
+	private LoanDao loanDao;
 
 	public double getEmi(float p, float t) {
 		float emi;
@@ -26,6 +17,24 @@ public class EMIService implements IEMIService {
 		emi = (p * r * (float) Math.pow(1 + r, t)) / (float) (Math.pow(1 + r, t) - 1);
 
 		return (emi);
+	}
+	
+	public UserLoginResult getRole(UserLoginRequest userLoginRequest) {
+		UserLoginResult res = new UserLoginResult();
+		String userName = userLoginRequest.getUsername();
+		String password = userLoginRequest.getPassword();
+		UserDetail ud = loanDao.getDetailFromUserName(userName, password);
+		if(ud!=null){
+			res.setValid(true);
+			res.setRole(ud.getRole());
+		}else{
+			res.setValid(false);
+		}
+		return res;
+	}
+
+	public void setLoanDao(LoanDao loanDao) {
+		this.loanDao = loanDao;
 	}
 
 }
